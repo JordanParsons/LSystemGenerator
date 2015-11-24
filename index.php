@@ -1,4 +1,4 @@
 <?php 
 define('__ROOT__', dirname(dirname(__FILE__))); 
-require_once(__ROOT__.'/index.html'); 
+require_once(__ROOT__.'/lsystem/index.html'); 
 ?> 
