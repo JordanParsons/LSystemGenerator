@@ -2,9 +2,14 @@
 var sketch = function(p){
   var phrase = "F"; //Input pattern
   var gens = 0; //Number of times the code has run
-  var len = 15; //Length of line segments
-  var angle; //Angle to rotate
   var drawn = false;
+
+  var vars = {lineColor:[ 255, 50, 0 ], bgColor:[ 25, 25, 25],  angle:1.1, len:15, alpha:50};
+
+  p.setVars = function(_v){
+    vars = _v;
+    console.log(vars);
+  }
 
   p.setup = function() {
   	//This line makes the canvas for processing to draw on the size of the window
@@ -13,8 +18,8 @@ var sketch = function(p){
   	p.smooth(); //draws geometry with anti-aliased edges
   	console.log("Hello World"); //console.log("MESSAGE"); prints a message
 
-    angle = p.PI / 3;
-    console.log("Seed: " + phrase +" at " + angle + " radians.");
+    //vars.angle = p.PI / 3;
+    console.log("Seed: " + phrase +" at " + vars.angle + " radians.");
     for(var i = 0; i < 4; i++){
       phrase = p.generatePhrase(phrase);
     }
@@ -22,14 +27,13 @@ var sketch = function(p){
 
   p.draw = function(){
     if(drawn == false){
-    	p.background(50); //sets the background color for the app
-    	p.stroke(255, 255, 255); //stroke(red, green, blue) sets the stroke color
-      p.stroke(255, 255, 255, 50) //Cool fade effect
+    	p.background(vars.bgColor[0], vars.bgColor[1], vars.bgColor[2]); //sets the background color for the app
+      p.stroke(vars.lineColor[0], vars.lineColor[1], vars.lineColor[2], vars.alpha) //Cool fade effect
     	p.push(); //Prepare to draw in an isolated space
       p.translate(window.innerWidth/2-25, 0);  //move where we are going to draw
       p.drawPhrase(phrase); //draw
       p.pop();  //reset our draw location
-      drawn = true;
+      drawn = false;
     }
   };
 
@@ -88,12 +92,12 @@ var sketch = function(p){
       
       switch(c) {
         case 'F':
-          p.line(0, 0, 0, len); 
-          p.translate(0, len);
+          p.line(0, 0, 0, vars.len); 
+          p.translate(0, vars.len);
           break;
 
         case 'X':
-          p.translate(0, len);
+          p.translate(0, vars.len);
           break;
 
         case '[':
@@ -105,11 +109,11 @@ var sketch = function(p){
           break;
 
         case '+':
-          p.rotate(angle);
+          p.rotate(vars.angle);
           break;
 
         case '-':
-          p.rotate(-angle);
+          p.rotate(-vars.angle);
           break;
         }
     }
